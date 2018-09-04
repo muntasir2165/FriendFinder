@@ -1,3 +1,6 @@
+// more info to connect to the Heroku MySQL database can be found at:
+// https://stackoverflow.com/questions/18408012/connection-to-mysql-from-nodejs-on-heroku-server
+
 var MySql = require("sync-mysql");
 
 // create the connection object to connect to the Heroku MySQL database

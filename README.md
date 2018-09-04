@@ -1,5 +1,5 @@
 # FriendFinder
-A Node.js Compatibility-based "FriendFinder" Application
+A full-stack Node.js Compatibility-based "FriendFinder" Application.
 
 ## Project Motivation
 
