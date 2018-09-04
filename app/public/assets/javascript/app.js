@@ -4,8 +4,8 @@ $(document).ready(function() {
 });
 
 function fillOutPageForTesting() {
-	$("#name").val("Joe Smith");
-    $("#photo").val("http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png");
+	$("#name").val("John Smith");
+    $("#photo_url").val("http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png");
     for(var i=1; i < 11; i++) {
 		var id = "#question-" + i; 
 		$(id).val("2");
@@ -14,8 +14,8 @@ function fillOutPageForTesting() {
 
 function isUserInfoInputFilledIn() {
 	var name = $("#name").val();
-    var photo = $("#photo").val();
-    if (!name || !photo) {
+    var photo_url = $("#photo_url").val();
+    if (!name || !photo_url) {
     	return false;
     }
     return true;
@@ -23,15 +23,13 @@ function isUserInfoInputFilledIn() {
 
 function clearUserInfoInputs() {
 	$("#name").val("");
-    $("#photo").val("");
+    $("#photo_url").val("");
 }
 
 function isSurveyFilledIn() {
 	for(var i=1; i < 11; i++) {
 		var id = "#question-" + i;
-		// console.log(id); 
 		if (!$(id).val()) {
-			// console.log($(id) + " value: " + $(id).val());
 			return false;
 		}
 	}
@@ -65,7 +63,7 @@ function getSurveyData() {
 function getUserData() {
 	var userData = {};
 	userData["name"] = $("#name").val();
-	userData["photo"] = $("#photo").val();
+	userData["photo_url"] = $("#photo_url").val();
 	userData["scores"] = getSurveyData();
 	return userData;
 }
@@ -75,12 +73,11 @@ function postUserDataToServer() {
 		method: "POST",
 		url: "/api/friends",
 		data: getUserData(),
-		contentType: "application/json; charset=utf-8",
-		dataType: "json",
 		success: function(result) {
-			// Grab the result from the AJAX post so that the best match's name and photo are displayed.
-			$("#match-name").text(data.name);
-			$("#match-img").attr("src", data.photo);
+			console.log(result);
+			// Grab the result from the AJAX post so that the name of the best match for a friend and their photo are displayed.
+			$("#match-name").text(result.name);
+			$("#match-photo_url").attr("src", result.photo_url);
 
 			// Show the modal with the best match
 			$("#results-modal").modal("toggle");
@@ -96,11 +93,11 @@ function submitButtonPressClickListener() {
 	$("#submit").on("click", function(event) {
 		event.preventDefault();
 		if (!isUserInfoInputFilledIn()  && !isSurveyFilledIn()) {
-			alertUser("Please fill out your personal info and answer the survey questions before submitting the form");
+			alertUser("Please fill out your personal info and answer the survey questions before submitting the form.");
 		} else if (!isUserInfoInputFilledIn()) {
-			alertUser("Please fill out your personal info before submitting the form");
+			alertUser("Please fill out your personal info before submitting the form.");
 		} else if (!isSurveyFilledIn()) {
-			alertUser("Please answer the survey questions before submitting the form");
+			alertUser("Please answer the survey questions before submitting the form.");
 		} else {
 			postUserDataToServer();
 			clearUserInfoInputs();

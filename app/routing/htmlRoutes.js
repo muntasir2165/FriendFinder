@@ -3,6 +3,7 @@ var path = require("path");
 
 module.exports = function(app) {
     app.get("/home", function(req, res) {
+        // console.log("__dirname: " + __dirname); => __dirname: /Users/houst/Desktop/UofT-SCS-Bootcamp/homeworks/homework-11/FriendFinder/app/routing
         res.sendFile(path.join(__dirname, "../public/home.html"));
     });
 
