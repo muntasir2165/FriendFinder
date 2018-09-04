@@ -45,9 +45,9 @@
 				<div class="col-md-8 offset-md-2 offset-md-right-2">
 					<h3 class="section-name">About You</h3>
 					<h5>Name (Required)</h5>
-					<input type="text" id="name" class="form-control">
+					<input type="text" id="name" class="form-control" placeholder="Joe Smith">
 					<h5>Link to Photo Image (Required)</h5>
-					<input type="text" id="photo" class="form-control">
+					<input type="text" id="photo_url" class="form-control" placeholder="joe.smith@gmail.com">
 				</div>	
 			</div>
 
@@ -173,7 +173,10 @@
 					<option value="3">4</option>
 					<option value="1">5 (Strongly Agree)</option>
 					</select>
-					<br><br>				
+					<br>
+
+				<button type="submit" class="mt-3 btn btn-primary btn-lg btn-block" id="submit"><i class="fa fa-check-circle" aria-hidden="true"></i> Submit</button>
+
 				</div>	
 			</div>
 
@@ -181,15 +184,159 @@
 
 			<div class="row">
 				<div class="col-md-12">
-					<h5><a href="/api/friends">API Friends List</a> | <a href="https://github.com/afhaque/friendfinder">GitHub Repo</a></h5>
+					<h5><a href="/api/friends" target="_blank">API Friends List</a> | <a href="https://github.com/muntasir2165/FriendFinder" target="_blank">GitHub Repo</a></h5>
 				</div>
 			</div>	
 
 
 		</div>
 
+		<!-- The friend match Modal -->
+		<div class="modal fade" id="register-modal">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+
+		      <div class="modal-header">
+		        <h4 class="modal-title">Register with a Unique User ID</h4>
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		      </div>
+
+		      <div class="modal-body">
+		        <form>
+					<div class="form-group">
+						<input type="text" class="form-control" id="register-username" placeholder="joesmith123">
+					</div>
+					<button id="register-button" type="submit" class="btn btn-success m-1">Register</button>
+				</form>
+				<div id="register-feedback-div"></div>
+		      </div>
+
+	<!-- 	      <div class="modal-footer">
+		        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+		      </div> -->
+
+		    </div>
+		  </div>
+		</div>
+
 		<!-- Load the associated JavaScript files -->
-		<script type="text/javascript" src="assets/javascript/app.js"></script>
+		<!-- <script type="text/javascript" src="assets/javascript/app.js"></script> -->
+		<script>
+			$(document).ready(function() {
+				submitButtonPressClickListener();
+				// fillOutPageForTesting();
+			});
+
+			function fillOutPageForTesting() {
+				$("#name").val("Joe Smith");
+			    $("#photo_url").val("http://www.personalbrandingblog.com/wp-content/uploads/2017/08/blank-profile-picture-973460_640-300x300.png");
+			    for(var i=1; i < 11; i++) {
+					var id = "#question-" + i; 
+					$(id).val("2");
+				}
+			}
+
+			function isUserInfoInputFilledIn() {
+				var name = $("#name").val();
+			    var photo_url = $("#photo_url").val();
+			    if (!name || !photo_url) {
+			    	return false;
+			    }
+			    return true;
+			}
+
+			function clearUserInfoInputs() {
+				$("#name").val("");
+			    $("#photo_url").val("");
+			}
+
+			function isSurveyFilledIn() {
+				for(var i=1; i < 11; i++) {
+					var id = "#question-" + i;
+					// console.log(id); 
+					if (!$(id).val()) {
+						// console.log($(id) + " value: " + $(id).val());
+						return false;
+					}
+				}
+				return true;
+			}
+
+			function clearSurvey() {
+				for(var i=1; i < 11; i++) {
+					var id = "#question-" + i; 
+					$(id).val("");
+				}
+			}
+
+			function alertUser(message) {
+				alert(message);
+			}
+
+			function getSurveyData() {
+				var scores = [];
+				for(var i=1; i < 11; i++) {
+					var id = "#question-" + i;
+					if ($(id).val().includes("1") || $(id).val().includes("5")) {
+						scores.push($(id).val()[0]);
+					} else {
+						scores.push($(id).val());
+					}
+				}
+				return scores;
+			}
+
+			function getUserData() {
+				var userData = {};
+				userData["name"] = $("#name").val();
+				userData["photo_url"] = $("#photo_url").val();
+				userData["scores"] = getSurveyData();
+				return userData;
+			}
+
+			function postUserDataToServer() {
+				$.ajax({
+					method: "POST",
+					url: "/api/friends",
+					data: getUserData(),
+					// contentType: "application/json; charset=utf-8",
+					// dataType: "json",
+					success: function(result) {
+						// console.log("Sending to server: no JSON.stringify() " + getUserData());
+						// console.log("Sending to server: JSON.parse " + JSON.parse(getUserData()));
+						console.log("Sending to server: " + JSON.stringify(getUserData()));
+						console.log(result);
+						// Grab the result from the AJAX post so that the best match's name and photo are displayed.
+						// $("#match-name").text(data.name);
+						// $("#match-img").attr("src", data.photo);
+
+						// // Show the modal with the best match
+						// $("#results-modal").modal("toggle");
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						alert("Sorry, invalid request.");
+						console.log("textStatus: " + textStatus + " errorThrown: " + errorThrown);
+						}
+				});
+			}
+
+			function submitButtonPressClickListener() {
+				$("#submit").on("click", function(event) {
+					event.preventDefault();
+					if (!isUserInfoInputFilledIn()  && !isSurveyFilledIn()) {
+						alertUser("Please fill out your personal info and answer the survey questions before submitting the form");
+					} else if (!isUserInfoInputFilledIn()) {
+						alertUser("Please fill out your personal info before submitting the form");
+					} else if (!isSurveyFilledIn()) {
+						alertUser("Please answer the survey questions before submitting the form");
+					} else {
+						postUserDataToServer();
+						clearUserInfoInputs();
+						clearSurvey();
+					}
+				});
+			}	
+		</script>
 
 	</body>
 

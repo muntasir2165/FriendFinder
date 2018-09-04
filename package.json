@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "initializeDb": "node ./app/db/initializeDb.js",
     "start": "node server.js"
   },
   "repository": {
@@ -21,6 +22,8 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.3",
-    "path": "^0.12.7"
+    "mysql": "^2.16.0",
+    "path": "^0.12.7",
+    "sync-mysql": "^3.0.1"
   }
 }
