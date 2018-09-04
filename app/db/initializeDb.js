@@ -24,7 +24,7 @@ connection.query("DROP TABLE IF EXISTS userData", function (err) {
             // seed the userData table in the Heroku database with sample data
             connection.query("INSERT INTO userData (name, photo_url, scores)"
                 + "VALUES"
-                + "(\"Tom Anderson\", \"https://a3-images.myspacecdn.com/images03/1/240e42b5d9ce48a78983961e7fcb3c39/600x600.jpg\", \"['1', '1', '1', '1', '1', '1', '1', '1', '1', '1']\")", function (err) {
+                + "(\"Tom Anderson\", \"https://a3-images.myspacecdn.com/images03/1/240e42b5d9ce48a78983961e7fcb3c39/600x600.jpg\", \"[1, 1, 1, 1, 1, 1, 1, 1, 1, 1]\")", function (err) {
                     if (err) throw err;
                     console.log("The userData table has been created in the Heroku database and seeded with sample data.");
                     connection.end();

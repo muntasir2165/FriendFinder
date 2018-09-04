@@ -18,8 +18,9 @@ module.exports = {
             console.log("ERROR: Invalid query!");
         } else {
                 friendsData.forEach(function(row) {
-                friendsDataArray.push({"name": row["name"], "photo_url": row["photo_url"], scores: JSON.parse(row["scores"])});
-            });
+                console.log(row);    
+                    friendsDataArray.push({"name": row["name"], "photo_url": row["photo_url"], scores: JSON.parse(row["scores"])});
+                });
             console.log(friendsDataArray);
             return friendsDataArray;
         }
