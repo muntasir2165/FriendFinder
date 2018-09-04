@@ -6,7 +6,7 @@ A Node.js Compatibility-based "FriendFinder" Application
 This app was developed as part of the Express.js homework assignment at the University of Toronto Full Stack Web Development bootcamp. This project is a testament to the mastery of advanced Node.js concepts that include client-server interaction and MySQL relational database query execution which ultimately resulted in a practical app that is simple yet powerful in its features and functionality.
 
 ## Environment Setup
-Download and Install the latest [Node.js](https://nodejs.org/en/download/) on you computer.  
+Download and Install the latest version of [Node.js](https://nodejs.org/en/download/) on you computer.  
 Please note that this app was developed using Node v8.11.4.
 
 ## Getting Started
