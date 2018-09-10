@@ -1,12 +1,12 @@
 /*The commented out block below was used for debugging the layout's paddings and margins*/
 /** {
-	border-width: 1px;
-	border-style: solid;
-	border-color: red;
+    border-width: 1px;
+    border-style: solid;
+    border-color: red;
 }*/
 
 body {
-	background-color: #000000;
+    background-color: #000000;
     color: #ffffff;
     background-image: url("../images/friendship.jpg");
     font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS", sans-serif;
